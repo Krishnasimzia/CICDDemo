@@ -33,8 +33,15 @@ jobs:
            dotnet restore
            dotnet build --no-restore
            dotnet test --no-build --verbosity normal
-           dotnet publish
         working-directory: CICDDemo
       
-
+      - name: Dotnet publish
+        run: dotnet publish
+        working-directory: CICDDemo
+        
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Publish
+          path: /home/runner/work/CICDDemo/CICDDemo/CICDDemo/bin/Debug/netcoreapp3.1/publish/
+ 
   
