@@ -32,6 +32,8 @@ jobs:
         run: |
            dotnet restore
            dotnet build --no-restore
+           dotnet test --no-build --verbosity normal
+           dotnet publish
         working-directory: CICDDemo
       
 
