@@ -21,6 +21,8 @@ jobs:
       - name: Restore dependencies
         run: |
            dotnet restore
+           npm config set msvs_version 2017
+           npm config set msbuild_path "C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\MSBuild\Current\Bin\MSBuild.exe"
            dotnet build --no-restore
         working-directory: CICDDemo
       
