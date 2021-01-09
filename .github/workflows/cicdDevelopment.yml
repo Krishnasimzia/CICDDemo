@@ -1,0 +1,47 @@
+name: .NET And Angular
+
+on:
+  push:
+    branches: [ development ]
+  pull_request:
+    branches: [ development ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: npm install, build, and test
+        run: |
+          npm install
+          npm run build --if-present
+        working-directory: CICDDemo/ClientApp
+          
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.301
+      - name: Restore, Build, Test and Publish dotnet project
+        run: |
+           dotnet restore
+           dotnet build --no-restore
+           dotnet test --no-build --verbosity normal
+        working-directory: CICDDemo
+      
+      - name: Dotnet publish
+        run: dotnet publish
+        working-directory: CICDDemo
+        
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Publish
+          path: /home/runner/work/CICDDemo/CICDDemo/CICDDemo/bin/Debug/netcoreapp3.1/publish/
+ 
+  
